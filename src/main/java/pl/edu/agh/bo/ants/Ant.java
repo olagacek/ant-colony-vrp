@@ -1,8 +1,13 @@
 /**
  * Created by Mati on 2017-05-09.
  */
-import java.util.*;
-import java.io.*;
+package main.java.pl.edu.agh.bo.ants;
+
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Vector;
 
 public abstract class Ant extends Observable implements Runnable
 {

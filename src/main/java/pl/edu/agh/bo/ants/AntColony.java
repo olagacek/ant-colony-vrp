@@ -1,3 +1,5 @@
+package main.java.pl.edu.agh.bo.ants;
+
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Observable;
@@ -7,6 +9,9 @@ import java.util.Vector;
 /**
  * Created by Mati on 2017-05-09.
  */
+
+
+
 public abstract class AntColony implements Observer
 {
     protected PrintStream m_outs;

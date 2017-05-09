@@ -1,3 +1,7 @@
+package main.java.pl.edu.agh.bo.cvrp;
+
+import main.java.pl.edu.agh.bo.ants.Ant;
+
 import java.util.Observer;
 
 /**
