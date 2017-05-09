@@ -1,4 +1,4 @@
-package pl.edu.agh.bo.cvrp;
+package main.java.pl.edu.agh.bo.cvrp;
 
 import java.util.Set;
 

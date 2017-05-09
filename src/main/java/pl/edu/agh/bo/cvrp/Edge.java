@@ -1,4 +1,4 @@
-package pl.edu.agh.bo.cvrp;
+package main.java.pl.edu.agh.bo.cvrp;
 
 public class Edge {
     private int weight;
