@@ -11,9 +11,10 @@ import java.util.Vector;
 
 public abstract class Ant extends Observable implements Runnable
 {
-    private int m_nAntID;
+    protected int m_nAntID;
 
     protected int[][]  m_path;
+    protected int m_curCap;
     protected int      m_nCurNode;
     protected int      m_nStartNode;
     protected double   m_dPathValue;
@@ -29,6 +30,7 @@ public abstract class Ant extends Observable implements Runnable
     public static Vector    s_bestPathVect  = null;
     public static int[][]   s_bestPath      = null;
     public static int       s_nLastBestPathIteration = 0;
+    public static int m_maxCap;
 
     public static void setAntColony(AntColony antColony)
     {
@@ -44,12 +46,13 @@ public abstract class Ant extends Observable implements Runnable
         s_outs = null;
     }
 
-    public Ant(int nStartNode, Observer observer)
+    public Ant(int nStartNode, Observer observer, int cap)
     {
         s_nAntIDCounter++;
         m_nAntID    = s_nAntIDCounter;
         m_nStartNode = nStartNode;
         m_observer  = observer;
+        m_maxCap = cap;
     }
 
     public void init()
@@ -74,6 +77,7 @@ public abstract class Ant extends Observable implements Runnable
 
         m_pathVect.addElement(new Integer(m_nStartNode));
         m_dPathValue = 0;
+        m_curCap = m_maxCap;
     }
 
     public void start()
@@ -107,14 +111,16 @@ public abstract class Ant extends Observable implements Runnable
             m_pathVect.addElement(new Integer(nNewNode));
             m_path[m_nCurNode][nNewNode] = 1;
 
-            synchronized(graph)
-            {
-                // apply the Local Updating Rule
-                localUpdatingRule(m_nCurNode, nNewNode);
-            }
+
 
             // update the current node
             m_nCurNode = nNewNode;
+        }
+
+        synchronized(graph)
+        {
+            // apply the Local Updating Rule
+            localUpdatingRule(m_pathVect);
         }
 
         synchronized(graph)
@@ -142,7 +148,7 @@ public abstract class Ant extends Observable implements Runnable
 
     public abstract int stateTransitionRule(int r);
 
-    public abstract void localUpdatingRule(int r, int s);
+    public abstract void localUpdatingRule(Vector path);
 
     public abstract boolean end();
 

@@ -6,6 +6,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
 
+import static main.java.pl.edu.agh.bo.ants.Ant.s_bestPathVect;
+
 /**
  * Created by Mati on 2017-05-09.
  */
@@ -117,16 +119,20 @@ public abstract class AntColony implements Observer
 
     public synchronized void update(Observable ant, Object obj)
     {
-        //m_outs.print(";" + ((Ant)ant).m_dPathValue);
+        m_outs.print(";" + ((Ant)ant).m_dPathValue);
         m_nAntCounter++;
 
         if(m_nAntCounter == m_ants.length)
         {
             m_outs.println(";" + Ant.s_dBestPathValue + ";" + m_graph.averageTau());
 
-            //            System.out.println("---------------------------");
-            //            System.out.println(m_iterCounter + " - Best Path: " + Ant.s_dBestPathValue);
-            //            System.out.println("---------------------------");
+                        System.out.println("---------------------------");
+                        System.out.println(m_nIterCounter + " - Best Path: " + Ant.s_dBestPathValue);
+                        System.out.println("---------------------------");
+                        System.out.println("Path seq: ");
+                        for(int i = 0; i<Ant.s_bestPathVect.size(); i++){
+                            System.out.print(s_bestPathVect.get(i));
+                        }
 
 
 
@@ -147,7 +153,7 @@ public abstract class AntColony implements Observer
 
     public Vector getBestPathVector()
     {
-        return Ant.s_bestPathVect;
+        return s_bestPathVect;
     }
 
     public int getLastBestPathIteration()

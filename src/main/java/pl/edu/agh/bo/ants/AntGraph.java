@@ -9,22 +9,26 @@ public class AntGraph implements Serializable
 {
     private double[][] m_delta;
     private double[][] m_tau;
+    private int[] m_demand;
     private int        m_nNodes;
     private double     m_dTau0;
 
-    public AntGraph(int nNodes, double[][] delta, double[][] tau)
+    public AntGraph(int nNodes, double[][] delta, double[][] tau, int[] demand)
     {
         if(delta.length != nNodes)
             throw new IllegalArgumentException("The number of nodes doesn't match with the dimension of delta matrix");
+        if(demand.length != nNodes)
+            throw new IllegalArgumentException("Every node must have it's demand (demand for staring node is 0)");
 
         m_nNodes = nNodes;
         m_delta = delta;
         m_tau   = tau;
+        m_demand = demand;
     }
 
-    public AntGraph(int nodes, double[][] delta)
+    public AntGraph(int nodes, double[][] delta, int[] demand)
     {
-        this(nodes, delta, new double[nodes][nodes]);
+        this(nodes, delta, new double[nodes][nodes], demand);
 
         resetTau();
     }
@@ -48,6 +52,8 @@ public class AntGraph implements Serializable
     {
         return m_nNodes;
     }
+
+    public synchronized int demand(int node){return m_demand[node];}
 
     public synchronized double tau0()
     {
