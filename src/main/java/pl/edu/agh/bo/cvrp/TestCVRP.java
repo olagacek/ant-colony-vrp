@@ -29,71 +29,51 @@ public class TestCVRP {
         // Print application prompt to console.
         System.out.println("AntColonySystem for TSP");
 
-//        if (args.length < 8) {
-//            System.out.println("Wrong number of parameters");
-//            return;
-//        }
+        if (args.length < 4) {
+            System.out.println("Wrong number of parameters");
+            return;
+        }
 
         int nAnts = 0;
         int nNodes = 0;
         int nIterations = 0;
         int nRepetitions = 0;
+        int capacity = 0;
         int[] demand = null;
         double d[][] = null;
         for (int i = 0; i < args.length; i += 2) {
             if (args[i].equals("-a")) {
                 nAnts = Integer.parseInt(args[i + 1]);
                 System.out.println("Ants: " + nAnts);
-            } else if (args[i].equals("-n")) {
-                nNodes = Integer.parseInt(args[i + 1]);
-                System.out.println("Nodes: " + nNodes);
-            } else if (args[i].equals("-i")) {
+            }else if (args[i].equals("-i")) {
                 nIterations = Integer.parseInt(args[i + 1]);
                 System.out.println("Iterations: " + nIterations);
             } else if (args[i].equals("-r")) {
                 nRepetitions = Integer.parseInt(args[i + 1]);
                 System.out.println("Repetitions: " + nRepetitions);
-            } else if (args[i].equals("-ag")) {
-                d = new double[nNodes][nNodes];
-                for (int k = 0; k < nNodes; i++)
-                    for (int l = k + 1; l < nNodes; l++) {
-                        d[k][l] = s_ran.nextDouble();
-                        d[l][k] = d[k][l];
-                    }
             } else if (args[i].equals("-file")) {
                 String fileName = args[i + 1];
+                Generator generator = new Generator("ant-colony-vrp/test_src/"+fileName);
+                generator.init();
                 try {
-                    d = create2DDoubleMatrixFromFile(Paths.get("test_src/"+fileName));
-//                    for( int g = 0; g<nNodes; g++){
-//                        for(int h = 0; h<nNodes; h++){
-//                            System.out.print(d[g][h]+" ");
-//                        }
-//                        System.out.print("\n");
-//                    }
-
+                    d = create2DDoubleMatrixFromFile(Paths.get("ant-colony-vrp/test_src/input.txt"));
+                    for (int g = 0; g < nNodes; g++) {
+                        for (int h = 0; h < nNodes; h++) {
+                            System.out.print(d[g][h] + " ");
+                        }
+                        System.out.print("\n");
+                    }
+                    nNodes = generator.Dimensions();
+                    demand = generator.Demands();
+                    capacity = generator.Capacity();
+                    System.out.println("Nodes: " + nNodes);
+                    System.out.println("Capacity: " + capacity);
+                    for (int g = 0; g < nNodes; g++) {
+                        System.out.print(demand[g] + " ");
+                    }
                 } catch (java.io.IOException ex) {
                     System.out.println("input file not found");
                 }
-            } else if (args[i].equals("-d")) {
-                demand = new int[nNodes];
-                System.out.print("Demands:");
-                int index = i;
-                for (int j = 1; j < nNodes; j++) {
-                    demand[j] = Integer.parseInt(args[index + 1]);
-                    index++;
-                    System.out.print(" " + demand[j]);
-                }
-                System.out.print("\n");
-                demand[0]=0;
-            }else if (args[i].equals("-ad")){
-                demand = new int[nNodes];
-                System.out.print("Demands:");
-                for (int j = 1; j < nNodes; j++) {
-                    demand[j] = s_ran.nextInt(10 - 1) + 1;
-                    System.out.print(" " + demand[j]);
-                }
-                System.out.print("\n");
-                demand[0] = 0;
             }
         }
 
@@ -126,7 +106,7 @@ public class TestCVRP {
 
                 for (int i = 0; i < nRepetitions; i++) {
                     graph.resetTau();
-                    AntColonyCVRP antColony = new AntColonyCVRP(graph, nAnts, nIterations);
+                    AntColonyCVRP antColony = new AntColonyCVRP(graph, nAnts, nIterations, capacity);
                     antColony.start();
                     outs2.println(i + "," + antColony.getBestPathValue() + "," + antColony.getLastBestPathIteration());
                 }

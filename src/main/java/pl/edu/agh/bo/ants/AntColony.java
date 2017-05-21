@@ -24,18 +24,20 @@ public abstract class AntColony implements Observer
     protected int      m_nAntCounter;
     protected int      m_nIterCounter;
     protected int      m_nIterations;
+    protected int      m_capacity;
 
     private int      m_nID;
 
     private static int s_nIDCounter = 0;
 
-    public AntColony(AntGraph graph, int nAnts, int nIterations)
+    public AntColony(AntGraph graph, int nAnts, int nIterations, int capacity)
     {
         m_graph = graph;
         m_nAnts = nAnts;
         m_nIterations = nIterations;
         s_nIDCounter++;
         m_nID = s_nIDCounter;
+        m_capacity = capacity;
     }
 
     public synchronized void start()

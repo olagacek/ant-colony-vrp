@@ -13,8 +13,8 @@ public class AntColonyCVRP extends AntColony{
 
     protected static final double A = 0.1;
 
-    public AntColonyCVRP(AntGraph graph, int nAnts, int nIterations) {
-        super(graph, nAnts, nIterations);
+    public AntColonyCVRP(AntGraph graph, int nAnts, int nIterations, int capacity) {
+        super(graph, nAnts, nIterations, capacity);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class AntColonyCVRP extends AntColony{
     AntCVRP ant[] = new AntCVRP[m_nAnts];
         for(int i = 0; i < m_nAnts; i++)
     {
-        ant[i] = new AntCVRP(0, this, 10);
+        ant[i] = new AntCVRP(0, this, m_capacity);
     }
 
         return ant;
