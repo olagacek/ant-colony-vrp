@@ -1,6 +1,6 @@
-package main.java.pl.edu.agh.bo.cvrp;
+package pl.edu.agh.bo.cvrp;
 
-import main.java.pl.edu.agh.bo.ants.AntGraph;
+import pl.edu.agh.bo.ants.AntGraph;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,8 +20,8 @@ public class TestCVRP {
 
     static public double[][] create2DDoubleMatrixFromFile(Path path) throws IOException {
         return Files.lines(path)
-                .map((l)->l.trim().split("\\s+"))
-                .map((sa)-> Stream.of(sa).mapToDouble(Double::parseDouble).toArray())
+                .map((l) -> l.trim().split("\\s+"))
+                .map((sa) -> Stream.of(sa).mapToDouble(Double::parseDouble).toArray())
                 .toArray(double[][]::new);
     }
 
@@ -45,7 +45,7 @@ public class TestCVRP {
             if (args[i].equals("-a")) {
                 nAnts = Integer.parseInt(args[i + 1]);
                 System.out.println("Ants: " + nAnts);
-            }else if (args[i].equals("-i")) {
+            } else if (args[i].equals("-i")) {
                 nIterations = Integer.parseInt(args[i + 1]);
                 System.out.println("Iterations: " + nIterations);
             } else if (args[i].equals("-r")) {
@@ -53,10 +53,10 @@ public class TestCVRP {
                 System.out.println("Repetitions: " + nRepetitions);
             } else if (args[i].equals("-file")) {
                 String fileName = args[i + 1];
-                Generator generator = new Generator("ant-colony-vrp/test_src/"+fileName);
+                Generator generator = new Generator("test_src/" + fileName);
                 generator.init();
                 try {
-                    d = create2DDoubleMatrixFromFile(Paths.get("ant-colony-vrp/test_src/input.txt"));
+                    d = create2DDoubleMatrixFromFile(Paths.get("test_src/input.txt"));
                     for (int g = 0; g < nNodes; g++) {
                         for (int h = 0; h < nNodes; h++) {
                             System.out.print(d[g][h] + " ");
@@ -77,42 +77,42 @@ public class TestCVRP {
             }
         }
 
-            if (nAnts == 0 || nNodes == 0 || nIterations == 0 || nRepetitions == 0) {
-                System.out.println("One of the parameters is wrong");
-                return;
+        if (nAnts == 0 || nNodes == 0 || nIterations == 0 || nRepetitions == 0) {
+            System.out.println("One of the parameters is wrong");
+            return;
+        }
+
+
+        AntGraph graph = new AntGraph(nNodes, d, demand);
+
+        try {
+            ObjectOutputStream outs = new ObjectOutputStream(new FileOutputStream("" + nNodes + "_antgraph.bin"));
+            outs.writeObject(graph);
+            outs.close();
+
+
+            FileOutputStream outs1 = new FileOutputStream("" + nNodes + "_antgraph.txt");
+
+            for (int i = 0; i < nNodes; i++) {
+                for (int j = 0; j < nNodes; j++) {
+                    outs1.write((graph.delta(i, j) + ",").getBytes());
+                }
+                outs1.write('\n');
             }
 
+            outs1.close();
 
-            AntGraph graph = new AntGraph(nNodes, d, demand);
+            PrintStream outs2 = new PrintStream(new FileOutputStream("" + nNodes + "x" + nAnts + "x" + nIterations + "_results.txt"));
 
-            try {
-                ObjectOutputStream outs = new ObjectOutputStream(new FileOutputStream("" + nNodes + "_antgraph.bin"));
-                outs.writeObject(graph);
-                outs.close();
-
-
-                FileOutputStream outs1 = new FileOutputStream("" + nNodes + "_antgraph.txt");
-
-                for (int i = 0; i < nNodes; i++) {
-                    for (int j = 0; j < nNodes; j++) {
-                        outs1.write((graph.delta(i, j) + ",").getBytes());
-                    }
-                    outs1.write('\n');
-                }
-
-                outs1.close();
-
-                PrintStream outs2 = new PrintStream(new FileOutputStream("" + nNodes + "x" + nAnts + "x" + nIterations + "_results.txt"));
-
-                for (int i = 0; i < nRepetitions; i++) {
-                    graph.resetTau();
-                    AntColonyCVRP antColony = new AntColonyCVRP(graph, nAnts, nIterations, capacity);
-                    antColony.start();
-                    outs2.println(i + "," + antColony.getBestPathValue() + "," + antColony.getLastBestPathIteration());
-                }
-                outs2.close();
-            } catch (Exception ex) {
+            for (int i = 0; i < nRepetitions; i++) {
+                graph.resetTau();
+                AntColonyCVRP antColony = new AntColonyCVRP(graph, nAnts, nIterations, capacity);
+                antColony.start();
+                outs2.println(i + "," + antColony.getBestPathValue() + "," + antColony.getLastBestPathIteration());
             }
+            outs2.close();
+        } catch (Exception ex) {
         }
     }
+}
 

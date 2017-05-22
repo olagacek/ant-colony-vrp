@@ -1,4 +1,4 @@
-package main.java.pl.edu.agh.bo.cvrp;
+package pl.edu.agh.bo.cvrp;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -84,7 +84,7 @@ public class Generator {
 
     void generateOutputFile(){
         try{
-            PrintWriter writer = new PrintWriter("ant-colony-vrp/test_src/input.txt", "UTF-8");
+            PrintWriter writer = new PrintWriter("test_src/input.txt", "UTF-8");
             for(int i=0; i< dimensions; i++){
                 String line ="";
                 for(int j=0; j< dimensions; j++){

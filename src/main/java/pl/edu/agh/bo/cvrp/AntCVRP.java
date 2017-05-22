@@ -1,7 +1,7 @@
-package main.java.pl.edu.agh.bo.cvrp;
+package pl.edu.agh.bo.cvrp;
 
-import main.java.pl.edu.agh.bo.ants.Ant;
-import main.java.pl.edu.agh.bo.ants.AntGraph;
+import pl.edu.agh.bo.ants.Ant;
+import pl.edu.agh.bo.ants.AntGraph;
 
 import java.util.*;
 
