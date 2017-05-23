@@ -1,7 +1,7 @@
 /**
  * Created by Mati on 2017-05-09.
  */
-package main.java.pl.edu.agh.bo.ants;
+package pl.edu.agh.bo.ants;
 
 import java.io.*;
 
