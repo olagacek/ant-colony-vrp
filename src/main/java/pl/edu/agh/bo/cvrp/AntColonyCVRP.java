@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class AntColonyCVRP extends AntColony{
 
-    protected static final double A = 0.1;
+    protected static final double A = 0.01;
 
     public AntColonyCVRP(AntGraph graph, int nAnts, int nIterations, int capacity) {
         super(graph, nAnts, nIterations, capacity);
@@ -41,7 +41,7 @@ public class AntColonyCVRP extends AntColony{
             {
                 if(r != s)
                 {
-                    dEvaporation = ((double)1 - A) * m_graph.tau(r,s);
+                    dEvaporation = A * m_graph.tau(r,s);
                     m_graph.updateTau(r, s, m_graph.tau(r,s)-dEvaporation);
                 }
             }

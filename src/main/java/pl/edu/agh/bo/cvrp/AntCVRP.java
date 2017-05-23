@@ -11,8 +11,8 @@ import java.util.*;
 public class AntCVRP extends Ant {
 
     private static final double A    = 2;
-    private static final double B    = 2;
-    private static final double Q0   = 0.2;
+    private static final double B    = 3;
+    private static final double Q0   = 0.5;
     private static final double R    = 0.1;
     private AntGraph graph;
 
@@ -50,8 +50,8 @@ public class AntCVRP extends Ant {
         while(en.hasMoreElements())
         {
             nNode = ((Integer)en.nextElement()).intValue();
-            if(graph.tau(m_nCurNode, nNode) == 0)
-                continue;
+//            if(graph.tau(m_nCurNode, nNode) == 0)
+//                continue;
 
             dSum += hValue(nNode);
         }
@@ -81,7 +81,7 @@ public class AntCVRP extends Ant {
         else{
             m_curCap = m_maxCap;
         }
-        System.out.println("Ant: "+m_nAntID+" makes move: "+m_nCurNode+" -> "+nMaxNode);
+        System.out.println("Ant: "+m_nAntID+" makes move: "+m_nCurNode+" -> "+nMaxNode + " iteration: "+m_iterationCounter);
         return nMaxNode;
     }
 
@@ -96,8 +96,8 @@ public class AntCVRP extends Ant {
         {
             nNode = ((Integer)en.nextElement()).intValue();
 
-            if(graph.tau(m_nCurNode, nNode) == 0)
-                continue;
+//            if(graph.tau(m_nCurNode, nNode) == 0)
+//                continue;
 
             dVal = hValue(nNode);
 
@@ -114,7 +114,7 @@ public class AntCVRP extends Ant {
         else{
             m_curCap = m_maxCap;
         }
-        System.out.println("Ant: "+m_nAntID+" makes move: "+m_nCurNode+" -> "+nMaxNode);
+        System.out.println("Ant: "+m_nAntID+" makes move: "+m_nCurNode+" -> "+nMaxNode + " iteration: "+m_iterationCounter);
         return nMaxNode;
     }
 
