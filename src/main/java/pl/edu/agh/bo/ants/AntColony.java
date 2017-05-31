@@ -6,6 +6,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
 
+
+import static pl.edu.agh.bo.ants.Ant.s_nLastBestPathIteration;
 import static pl.edu.agh.bo.ants.Ant.s_bestPathVect;
 
 /**
@@ -38,6 +40,7 @@ public abstract class AntColony implements Observer
         s_nIDCounter++;
         m_nID = s_nIDCounter;
         m_capacity = capacity;
+        m_nIterCounter = 0;
     }
 
     public synchronized void start()
@@ -45,7 +48,6 @@ public abstract class AntColony implements Observer
         // creates all ants
         m_ants  = createAnts(m_graph, m_nAnts);
 
-        m_nIterCounter = 0;
         try
         {
             m_outs = new PrintStream(new FileOutputStream("" + m_nID + "_" + m_graph.nodes() + "x" + m_ants.length + "x" + m_nIterations + "_colony.txt"));
@@ -87,7 +89,7 @@ public abstract class AntColony implements Observer
     {
         m_nAntCounter = 0;
         m_nIterCounter++;
-        m_outs.print(m_nIterCounter);
+        m_outs.print("NR: "+m_nIterCounter);
         for(int i = 0; i < m_ants.length; i++)
         {
             m_ants[i].start();
@@ -126,7 +128,7 @@ public abstract class AntColony implements Observer
 
         if(m_nAntCounter == m_ants.length)
         {
-            m_outs.println(";" + Ant.s_dBestPathValue + ";" + m_graph.averageTau());
+            m_outs.println("    iteration: "+Ant.s_nLastBestPathIteration+"     result: " + Ant.s_dBestPathValue);
 
                         System.out.println("---------------------------");
                         System.out.println(m_nIterCounter + " - Best Path: " + Ant.s_dBestPathValue);
@@ -160,7 +162,7 @@ public abstract class AntColony implements Observer
 
     public int getLastBestPathIteration()
     {
-        return Ant.s_nLastBestPathIteration;
+        return s_nLastBestPathIteration;
     }
 
     public boolean done()

@@ -20,6 +20,7 @@ public abstract class Ant extends Observable implements Runnable
     protected double   m_dPathValue;
     protected Observer m_observer;
     protected Vector   m_pathVect;
+    protected int      m_iterationCounter;
 
     private static int s_nAntIDCounter = 0;
     private static PrintStream s_outs;
@@ -53,6 +54,7 @@ public abstract class Ant extends Observable implements Runnable
         m_nStartNode = nStartNode;
         m_observer  = observer;
         m_maxCap = cap;
+        m_iterationCounter = 0;
     }
 
     public void init()
@@ -90,6 +92,7 @@ public abstract class Ant extends Observable implements Runnable
 
     public void run()
     {
+        m_iterationCounter++;
         final AntGraph graph = s_antColony.getGraph();
 
         // repeat while End of Activity Rule returns false
@@ -131,7 +134,7 @@ public abstract class Ant extends Observable implements Runnable
                 s_dBestPathValue        = m_dPathValue;
                 s_bestPath              = m_path;
                 s_bestPathVect          = m_pathVect;
-                s_nLastBestPathIteration = s_antColony.getIterationCounter();
+                s_nLastBestPathIteration = m_iterationCounter;
 
                 s_outs.println("Ant + " + m_nAntID + "," + s_dBestPathValue + "," + s_nLastBestPathIteration + "," + s_bestPathVect.size() + "," + s_bestPathVect);
             }
