@@ -43,7 +43,7 @@ public class AntsLineChart extends ApplicationFrame {
 
         XYPlot plot = lineChart.getXYPlot();
         NumberAxis xAxis = (NumberAxis) plot.getDomainAxis();
-        xAxis.setTickUnit(new NumberTickUnit(100));
+        xAxis.setTickUnit(new NumberTickUnit(10));
 
 //        NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
 //        yAxis.setTickUnit(new NumberTickUnit(1));
@@ -78,7 +78,7 @@ public class AntsLineChart extends ApplicationFrame {
     }
 
     public static void main( String[ ] args ) {
-        Path path = Paths.get("1_22x50x2500_colony.txt");
+        Path path = Paths.get("1_22x50x150_colony.txt");
         AntsLineChart chart = null;
         try {
             Map<Integer, Double> functionPerIteration = parseFile(path);
