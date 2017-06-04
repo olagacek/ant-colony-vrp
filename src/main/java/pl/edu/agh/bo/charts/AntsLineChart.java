@@ -73,24 +73,33 @@ public class AntsLineChart extends ApplicationFrame {
         Map<Integer, Double> functionPerIteration = new HashMap<>();
         Files.lines(path)
                 .map(line -> line.split(";"))
-                .forEach(numbers -> functionPerIteration.put(Integer.parseInt(numbers[0]), Double.parseDouble(numbers[numbers.length - 2])));
+                .forEach(numbers -> functionPerIteration.put(
+                        Integer.parseInt(numbers[0]), Double.parseDouble(numbers[numbers.length - 2])));
         return functionPerIteration;
     }
 
-    public static void main( String[ ] args ) {
-        Path path = Paths.get("1_22x50x2500_colony.txt");
-        AntsLineChart chart = null;
-        try {
-            Map<Integer, Double> functionPerIteration = parseFile(path);
-            chart = new AntsLineChart(
-                    "Wykres funkcji celu od iteracji" ,
-                    "Funkcja celu od iteracji", functionPerIteration);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        chart.pack( );
-        RefineryUtilities.centerFrameOnScreen( chart );
-        chart.setVisible( true );
+    public static void showGraph(String p) {
+
+        (new Thread(() -> {
+            Path path = Paths.get(p);
+            AntsLineChart chart = null;
+            try {
+                Map<Integer, Double> functionPerIteration = parseFile(path);
+                chart = new AntsLineChart(
+                        p ,
+                        "Funkcja celu od iteracji", functionPerIteration);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            chart.pack( );
+            RefineryUtilities.centerFrameOnScreen( chart );
+            chart.setVisible( true );
+        })).start();
+
+    }
+    public static void main( String[ ] args ) {
+        showGraph("1_22x10x2500_colony.txt");
     }
 }

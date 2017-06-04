@@ -89,7 +89,7 @@ public abstract class AntColony implements Observer
     {
         m_nAntCounter = 0;
         m_nIterCounter++;
-        m_outs.print("NR: "+m_nIterCounter);
+        m_outs.print(""+m_nIterCounter);
         for(int i = 0; i < m_ants.length; i++)
         {
             m_ants[i].start();
