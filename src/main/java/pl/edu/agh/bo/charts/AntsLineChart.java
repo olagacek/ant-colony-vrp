@@ -75,6 +75,7 @@ public class AntsLineChart extends ApplicationFrame {
                 .map(line -> line.split(";"))
                 .forEach(numbers -> functionPerIteration.put(
                         Integer.parseInt(numbers[0]), Double.parseDouble(numbers[numbers.length - 2])));
+
         return functionPerIteration;
     }
 
@@ -98,8 +99,5 @@ public class AntsLineChart extends ApplicationFrame {
             chart.setVisible( true );
         })).start();
 
-    }
-    public static void main( String[ ] args ) {
-        showGraph("1_22x10x2500_colony.txt");
     }
 }
