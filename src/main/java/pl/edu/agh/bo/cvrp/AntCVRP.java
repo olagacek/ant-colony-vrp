@@ -29,8 +29,8 @@ public class AntCVRP extends Ant {
         graph = s_antColony.getGraph();
         m_nodesToVisitTbl = new Hashtable(graph.nodes());
         for(int i = 0; i < graph.nodes(); i++)
-            m_nodesToVisitTbl.put(new Integer(i), new Integer(i));
-        m_nodesToVisitTbl.remove(new Integer(m_nStartNode));
+            m_nodesToVisitTbl.put(i, i);
+        m_nodesToVisitTbl.remove(m_nStartNode);
     }
 
 
@@ -49,7 +49,7 @@ public class AntCVRP extends Ant {
         Enumeration en = m_nodesToVisitTbl.elements();
         while(en.hasMoreElements())
         {
-            nNode = ((Integer)en.nextElement()).intValue();
+            nNode = ((Integer)en.nextElement());
 //            if(graph.tau(m_nCurNode, nNode) == 0)
 //                continue;
 
@@ -94,10 +94,7 @@ public class AntCVRP extends Ant {
         Enumeration en = m_nodesToVisitTbl.elements();
         while(en.hasMoreElements())
         {
-            nNode = ((Integer)en.nextElement()).intValue();
-
-//            if(graph.tau(m_nCurNode, nNode) == 0)
-//                continue;
+            nNode = ((Integer)en.nextElement());
 
             dVal = hValue(nNode);
 
@@ -108,7 +105,7 @@ public class AntCVRP extends Ant {
             }
         }
         if(nMaxNode!=0){
-            m_nodesToVisitTbl.remove(new Integer(nMaxNode));
+            m_nodesToVisitTbl.remove(nMaxNode);
             m_curCap -= graph.demand(nMaxNode);
         }
         else{

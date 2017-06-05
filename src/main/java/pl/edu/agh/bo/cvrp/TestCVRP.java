@@ -1,6 +1,7 @@
 package pl.edu.agh.bo.cvrp;
 
 import pl.edu.agh.bo.ants.AntGraph;
+import pl.edu.agh.bo.charts.AntsLineChart;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class TestCVRP {
         int capacity = 0;
         int[] demand = null;
         double d[][] = null;
+        boolean isShowGraph = true;
         for (int i = 0; i < args.length; i += 2) {
             if (args[i].equals("-a")) {
                 nAnts = Integer.parseInt(args[i + 1]);
@@ -74,7 +76,10 @@ public class TestCVRP {
                 } catch (java.io.IOException ex) {
                     System.out.println("input file not found");
                 }
+            }  else if (args[i].equals("-showgraph")) {
+                isShowGraph = true;
             }
+
         }
 
         if (nAnts == 0 || nNodes == 0 || nIterations == 0 || nRepetitions == 0) {
@@ -109,10 +114,17 @@ public class TestCVRP {
                 AntColonyCVRP antColony = new AntColonyCVRP(graph, nAnts, nIterations, capacity);
                 antColony.start();
                 outs2.println(i + "," + antColony.getBestPathValue() + "," + antColony.getLastBestPathIteration());
+
+                if (isShowGraph) {
+                    // ugly as f***
+                    AntsLineChart.showGraph("" + (i + 1) + "_" + nNodes +"x"+nAnts+"x"+nIterations+"_colony.txt");
+                }
             }
             outs2.close();
         } catch (Exception ex) {
         }
+
+
     }
 }
 

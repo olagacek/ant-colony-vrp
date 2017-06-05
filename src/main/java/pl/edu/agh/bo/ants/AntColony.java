@@ -89,7 +89,7 @@ public abstract class AntColony implements Observer
     {
         m_nAntCounter = 0;
         m_nIterCounter++;
-        m_outs.print("NR: "+m_nIterCounter);
+        m_outs.print(""+m_nIterCounter);
         for(int i = 0; i < m_ants.length; i++)
         {
             m_ants[i].start();
@@ -128,7 +128,7 @@ public abstract class AntColony implements Observer
 
         if(m_nAntCounter == m_ants.length)
         {
-            m_outs.println("    iteration: "+Ant.s_nLastBestPathIteration+"     result: " + Ant.s_dBestPathValue);
+            m_outs.println("    ;iteration: "+Ant.s_nLastBestPathIteration+"     ;result: " + Ant.s_dBestPathValue);
 
                         System.out.println("---------------------------");
                         System.out.println(m_nIterCounter + " - Best Path: " + Ant.s_dBestPathValue);

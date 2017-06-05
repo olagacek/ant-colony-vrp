@@ -43,7 +43,7 @@ public class AntsLineChart extends ApplicationFrame {
 
         XYPlot plot = lineChart.getXYPlot();
         NumberAxis xAxis = (NumberAxis) plot.getDomainAxis();
-        xAxis.setTickUnit(new NumberTickUnit(10));
+        xAxis.setTickUnit(new NumberTickUnit(100));
 
 //        NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
 //        yAxis.setTickUnit(new NumberTickUnit(1));
@@ -60,8 +60,6 @@ public class AntsLineChart extends ApplicationFrame {
     private XYDataset createDataset( ) {
         XYSeriesCollection dataset = new XYSeriesCollection();
         XYSeries series = new XYSeries("funkcja celu");
-        System.out.println(entriesMap);
-
         entriesMap.entrySet().stream().forEach(entry -> {
             series.add(entry.getKey(), entry.getValue());
         });
@@ -73,24 +71,31 @@ public class AntsLineChart extends ApplicationFrame {
         Map<Integer, Double> functionPerIteration = new HashMap<>();
         Files.lines(path)
                 .map(line -> line.split(";"))
-                .forEach(numbers -> functionPerIteration.put(Integer.parseInt(numbers[0]), Double.parseDouble(numbers[numbers.length - 2])));
+                .forEach(numbers -> functionPerIteration.put(
+                        Integer.parseInt(numbers[0]), Double.parseDouble(numbers[numbers.length - 1].split(" ")[1])));
+
         return functionPerIteration;
     }
 
-    public static void main( String[ ] args ) {
-        Path path = Paths.get("1_22x50x150_colony.txt");
-        AntsLineChart chart = null;
-        try {
-            Map<Integer, Double> functionPerIteration = parseFile(path);
-            chart = new AntsLineChart(
-                    "Wykres funkcji celu od iteracji" ,
-                    "Funkcja celu od iteracji", functionPerIteration);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        chart.pack( );
-        RefineryUtilities.centerFrameOnScreen( chart );
-        chart.setVisible( true );
+    public static void showGraph(String p) {
+
+        (new Thread(() -> {
+            Path path = Paths.get(p);
+            AntsLineChart chart = null;
+            try {
+                Map<Integer, Double> functionPerIteration = parseFile(path);
+                chart = new AntsLineChart(
+                        p ,
+                        "Funkcja celu od iteracji", functionPerIteration);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            chart.pack( );
+            RefineryUtilities.centerFrameOnScreen( chart );
+            chart.setVisible( true );
+        })).start();
+
     }
 }
