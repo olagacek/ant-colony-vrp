@@ -136,6 +136,7 @@ public abstract class AntColony implements Observer
                         System.out.println("Path seq: ");
                         for(int i = 0; i<Ant.s_bestPathVect.size(); i++){
                             System.out.print(s_bestPathVect.get(i));
+                            System.out.print(" ");
                         }
 
 

@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class AntColonyCVRP extends AntColony{
 
-    protected static final double A = 0.01;
+    protected static final double A = 0.04;
 
     public AntColonyCVRP(AntGraph graph, int nAnts, int nIterations, int capacity) {
         super(graph, nAnts, nIterations, capacity);

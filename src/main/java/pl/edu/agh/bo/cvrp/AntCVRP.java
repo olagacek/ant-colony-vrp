@@ -12,7 +12,7 @@ public class AntCVRP extends Ant {
 
     private static final double A    = 2;
     private static final double B    = 2;
-    private static final double Q0   = 0.5;
+    private static final double Q0   = 0.2;
     private static final double R    = 0.1;
     private AntGraph graph;
 

@@ -109,17 +109,23 @@ public class TestCVRP {
 
             PrintStream outs2 = new PrintStream(new FileOutputStream("" + nNodes + "x" + nAnts + "x" + nIterations + "_results.txt"));
 
+            long totalTime = 0;
+
             for (int i = 0; i < nRepetitions; i++) {
+
                 graph.resetTau();
                 AntColonyCVRP antColony = new AntColonyCVRP(graph, nAnts, nIterations, capacity);
+
+                long begin = System.currentTimeMillis();
                 antColony.start();
                 outs2.println(i + "," + antColony.getBestPathValue() + "," + antColony.getLastBestPathIteration());
+                totalTime += System.currentTimeMillis() - begin;
 
                 if (isShowGraph) {
-                    // ugly as f***
                     AntsLineChart.showGraph("" + (i + 1) + "_" + nNodes +"x"+nAnts+"x"+nIterations+"_colony.txt");
                 }
             }
+            System.out.printf("\nAverage time: %.2f", ((double)totalTime) / 1000.0);
             outs2.close();
         } catch (Exception ex) {
         }
